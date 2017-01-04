@@ -18,4 +18,8 @@ export class RouteContainer extends React.Component {
   }
 }
 
+RouteContainer.propTypes = {
+  children: React.PropTypes.object,
+};
+
 export default RouteContainer;

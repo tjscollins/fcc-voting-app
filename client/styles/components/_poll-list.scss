@@ -1,0 +1,32 @@
+.bottom-row {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.poll-list {
+  margin-top: 50px;
+}
+
+.inner-list {
+  background-color: $list-bg;
+  border-radius: 5px;
+}
+
+.list-row {
+  cursor: pointer;
+  padding: 5px;
+  @include custom-transition($row-trans, $row-trans-func, $row-trans-delay);
+
+  &:hover {
+    background-color: $row-hover-color;
+  }
+}
+
+.title {
+  text-align: center;
+}
+
+.top-row {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
