@@ -18,7 +18,7 @@ export class PollPage extends React.Component {
    */
   ballot() {
     return (
-      <div>
+      <div className='ballot'>
         Ballot
       </div>
     );
@@ -31,8 +31,8 @@ export class PollPage extends React.Component {
    */
   displayPollData() {
     return (
-      <div>
-        POLL PAGE: {window.location.pathname.match(/(\d+)$/)[0]}
+      <div className='data'>
+        POLL PAGE: {window.location.pathname.match(/(\d+)$/)}
       </div>
     );
   }
