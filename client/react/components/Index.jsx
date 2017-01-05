@@ -14,7 +14,7 @@ export class Index extends React.Component {
   render() {
     return (
       <div>
-        <Header />
+        <Header loggedIn={false} />
         <PollList />
       </div>
     );

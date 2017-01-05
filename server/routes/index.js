@@ -40,6 +40,11 @@ module.exports = function(app, passport) {
       res.sendFile(path + '/public/index.html');
     });
 
+  app.route('/poll:id')
+  .get((req, res) => {
+    res.sendFile(path + '/public/index.html');
+  });
+
   app
     .route('/api/:id')
     .get(isLoggedIn, function(req, res) {

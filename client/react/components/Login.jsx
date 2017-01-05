@@ -18,7 +18,7 @@ export class Login extends React.Component {
             <br />
             <p className='clementine-text'>A Clementine Based <br /> MERN Application Template</p>
             <a href='/auth/github'>
-              <div className='btn' id='login-btn'>
+              <div className='btn btn-info' id='login-btn'>
                 <img src='/public/img/github_32px.png' alt='github logo' />
                 <p>LOGIN WITH GITHUB</p>
               </div>

@@ -3,10 +3,6 @@
   border-bottom-right-radius: 5px;
 }
 
-.poll-list {
-  margin-top: 50px;
-}
-
 .inner-list {
   background-color: $list-bg;
   border-radius: 5px;
@@ -20,6 +16,10 @@
   &:hover {
     background-color: $row-hover-color;
   }
+}
+
+.poll-list {
+  margin-top: 50px;
 }
 
 .title {
