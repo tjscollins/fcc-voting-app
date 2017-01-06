@@ -62,6 +62,17 @@ module.exports = function(app, passport) {
       failureRedirect: '/login',
     }));
 
+    app
+      .route('/auth/google')
+      .get(passport.authenticate('google', {scope: ['openid profile email']}));
+
+    app
+      .route('/auth/google/callback*')
+      .get(passport.authenticate('google', {
+        successRedirect: '/',
+        failureRedirect: '/login',
+      }));
+
   app
     .route('/api/:id/clicks')
     .get(isLoggedIn, clickHandler.getClicks)

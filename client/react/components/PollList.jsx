@@ -13,9 +13,11 @@ export class PollList extends React.Component {
     return (
       <div className='container-fluid inner-list'>
         <div className='row list-row top-row'>
-          <div className='title col-xs-6 col-xs-push-3'>
-            <a href='/poll1234'>Test</a>
-          </div>
+          <a href='/poll1234'>
+            <div className='title col-xs-6 col-xs-push-3'>
+              Test
+            </div>
+          </a>
         </div>
         <div className='row list-row'>
           <div className='title col-xs-6 col-xs-push-3'>

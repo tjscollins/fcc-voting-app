@@ -9,7 +9,6 @@
 }
 
 .list-row {
-  cursor: pointer;
   padding: 5px;
   @include custom-transition($row-trans, $row-trans-func, $row-trans-delay);
 
