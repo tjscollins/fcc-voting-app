@@ -64,7 +64,7 @@ module.exports = (passport) => {
 					return done(null, user);
 				} else {
 					let newUser = new User();
-					// console.log(profile);
+
 					newUser.google.id = profile.id;
 					newUser.google.username = profile.emails[0].value;
 					newUser.google.displayName = profile.displayName;

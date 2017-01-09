@@ -3,6 +3,7 @@
 
 const path = process.cwd();
 const ClickHandler = require(path + '/server/controllers/clickHandler.server.js');
+const {getUserData} = require(path + '/server/controllers/userController.client.js');
 
 module.exports = function(app, passport) {
   function isLoggedIn(req, res, next) {
@@ -40,10 +41,11 @@ module.exports = function(app, passport) {
       res.sendFile(path + '/public/index.html');
     });
 
-  app.route('/poll:id')
-  .get((req, res) => {
-    res.sendFile(path + '/public/index.html');
-  });
+  app
+    .route('/poll:id')
+    .get((req, res) => {
+      res.sendFile(path + '/public/index.html');
+    });
 
   app
     .route('/api/:id')
@@ -62,16 +64,18 @@ module.exports = function(app, passport) {
       failureRedirect: '/login',
     }));
 
-    app
-      .route('/auth/google')
-      .get(passport.authenticate('google', {scope: ['openid profile email']}));
+  app
+    .route('/auth/google')
+    .get(passport.authenticate('google', {scope: ['openid profile email']}));
 
-    app
-      .route('/auth/google/callback*')
-      .get(passport.authenticate('google', {
-        successRedirect: '/',
-        failureRedirect: '/login',
-      }));
+  app
+    .route('/auth/google/callback*')
+    .get(passport.authenticate('google', {
+      successRedirect: '/',
+      failureRedirect: '/login',
+    }));
+
+  app.route('/api/:id/').get(isLoggedIn, getUserData);
 
   app
     .route('/api/:id/clicks')
