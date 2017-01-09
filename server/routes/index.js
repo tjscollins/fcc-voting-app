@@ -10,6 +10,7 @@ module.exports = function(app, passport) {
     if (req.isAuthenticated()) {
       return next();
     } else {
+      console.log('Unauthenticated access!');
       res.redirect('/login');
     }
   }
@@ -48,9 +49,10 @@ module.exports = function(app, passport) {
     });
 
   app
-    .route('/api/:id')
+    .route('/api/me')
     .get(isLoggedIn, function(req, res) {
-      res.json(req.user.github);
+      console.log('/api/me', req.user);
+      res.json(req.user);
     });
 
   app

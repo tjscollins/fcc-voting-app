@@ -1,5 +1,9 @@
 /*----------Modules----------*/
 import React from 'react';
+import {connect} from 'react-redux';
+
+/*----------Redux----------*/
+import * as actions from 'actions';
 
 /*----------Components----------*/
 
@@ -8,6 +12,9 @@ import React from 'react';
 export class Header extends React.Component {
   constructor() {
     super();
+    this.state = {
+      loggedIn: false,
+    };
   }
 
   /**
@@ -16,18 +23,32 @@ export class Header extends React.Component {
    * @return {JSX}  JSX element for login/logout button
    */
   loginManager() {
-    if(this.props.loggedIn) {
+    if(this.state.loggedIn) {
       return (
         <a href='/logout'><button className='btn btn-primary'>Logout</button></a>
       );
     } else {
       return (
         <div />
-        // <a href='/login'><button className='btn btn-primary'>Login</button></a>
       );
     }
   }
   render() {
+    let {dispatch} = this.props;
+    if(!this.state.loggedIn) $.ajax({
+      url: '/api/me',
+      type: 'get',
+    }).done((data) => {
+      // console.log('/api/me', data, this.props.session.data);
+      if(typeof data._id === 'string') {
+        // dispatch(actions.initiateSession('github', data));
+        this.setState({
+          loggedIn: true,
+        });
+      }
+    }).fail((err) => {
+      console.error(err);
+    });
     return (
       <nav id='Header' className='navbar navbar-default navbar-static-top'>
         <div className='navbar-header'>
@@ -53,6 +74,8 @@ export class Header extends React.Component {
 
 Header.propTypes = {
   loggedIn: React.PropTypes.bool,
+  session: React.PropTypes.object,
+  dispatch: React.PropTypes.func,
 };
 
-export default Header;
+export default connect((state) => state)(Header);

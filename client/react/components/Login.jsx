@@ -1,5 +1,9 @@
 /*----------Modules----------*/
 import React from 'react';
+// import {connect} from 'react-redux';
+
+/*----------Redux----------*/
+// import * as actions from 'actions';
 
 /*----------Components----------*/
 import Header from 'Header';
@@ -10,6 +14,7 @@ export class Login extends React.Component {
     super();
   }
   render() {
+    // console.log('User is: ', window.user);
     return (
       <div>
         <Header />
@@ -43,5 +48,9 @@ export class Login extends React.Component {
     );
   }
 }
+
+Login.propTypes = {
+  // dispatch: React.PropTypes.func.isRequired,
+};
 
 export default Login;

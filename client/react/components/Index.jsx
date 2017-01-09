@@ -1,5 +1,6 @@
 /*----------Modules----------*/
 import React from 'react';
+import {connect} from 'react-redux';
 
 /*----------Components----------*/
 import Header from 'Header';
@@ -14,11 +15,15 @@ export class Index extends React.Component {
   render() {
     return (
       <div>
-        <Header loggedIn={false} />
+        <Header loggedIn={this.props.loggedIn} />
         <PollList />
       </div>
     );
   }
 }
 
-export default Index;
+Index.propTypes = {
+  loggedIn: React.PropTypes.bool,
+};
+
+export default connect((state) => state)(Index);

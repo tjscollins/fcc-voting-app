@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+// const expose = require('express-expose');
 const routes = require('./server/routes/index.js');
 const mongoose = require('mongoose');
 const passport = require('passport');
@@ -18,15 +19,23 @@ app.use('/public', express.static(process.cwd() + '/public'));
 app.use('/common', express.static(process.cwd() + '/server/common'));
 
 app.use(session({
-  secret: 'secretClementine',
+  secret: 'Vote or Die!',
   resave: false,
   saveUninitialized: true,
+  // cookie: {secure: true},
 }));
 
 app.use(passport.initialize());
 app.use(passport.session());
-
+// app.use(function(req, res, next) {
+//     if (req.isAuthenticated()) {
+//       console.log('Exposing user');
+//       res.expose(req.user, 'user');
+//   };
+//     next();
+// });
 routes(app, passport);
+
 
 const port = process.env.PORT || 8080;
 app.listen(port, function() {
