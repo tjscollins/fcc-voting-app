@@ -12,9 +12,6 @@ import * as actions from 'actions';
 export class Header extends React.Component {
   constructor() {
     super();
-    this.state = {
-      loggedIn: false,
-    };
   }
 
   /**
@@ -23,9 +20,9 @@ export class Header extends React.Component {
    * @return {JSX}  JSX element for login/logout button
    */
   loginManager() {
-    if(this.state.loggedIn) {
+    if(this.props.session.data) {
       return (
-        <a href='/logout'><button className='btn btn-primary'>Logout</button></a>
+        <a href='/logout'><button onClick={this.logout} className='btn btn-primary'>Logout</button></a>
       );
     } else {
       return (
@@ -33,18 +30,22 @@ export class Header extends React.Component {
       );
     }
   }
+
+  /**
+   * logout - dispatch action to clear userSession data
+   *
+   */
+  logout() {
+    dispatch(actions.endSession());
+  }
   render() {
-    let {dispatch} = this.props;
-    if(!this.state.loggedIn) $.ajax({
+    let {dispatch, session} = this.props;
+    if(!session.data) $.ajax({
       url: '/api/me',
       type: 'get',
     }).done((data) => {
-      // console.log('/api/me', data, this.props.session.data);
-      if(typeof data._id === 'string') {
-        // dispatch(actions.initiateSession('github', data));
-        this.setState({
-          loggedIn: true,
-        });
+      if(data._id && !session.data) {
+        dispatch(actions.initiateSession('github', data));
       }
     }).fail((err) => {
       console.error(err);
@@ -73,7 +74,6 @@ export class Header extends React.Component {
 }
 
 Header.propTypes = {
-  loggedIn: React.PropTypes.bool,
   session: React.PropTypes.object,
   dispatch: React.PropTypes.func,
 };

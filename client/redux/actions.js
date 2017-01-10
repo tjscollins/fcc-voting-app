@@ -5,3 +5,9 @@ export const initiateSession = (service, data) => {
     data,
   };
 };
+
+export const endSession = () => {
+  return {
+    type: 'END_SESSION',
+  };
+};

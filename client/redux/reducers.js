@@ -1,11 +1,17 @@
 
-export const sessionReducer = (state={}, action) => {
+export const sessionReducer = (state={data: null, service: null}, action) => {
   switch(action.type) {
     case 'INIT_SESSION':
       return {
         ...state,
         service: action.service,
         data: action.data,
+      };
+    case 'END_SESSION':
+      return {
+        ...state,
+        service: null,
+        data: null,
       };
     default:
       return state;
