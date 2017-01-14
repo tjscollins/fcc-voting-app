@@ -7,8 +7,8 @@ import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
 
 /*----------Redux----------*/
-// import {Provider} from 'react-redux';
-// import {configure} from 'configureStore';
+import {Provider} from 'react-redux';
+import configureStore from 'configure';
 
 /*----------Components----------*/
 import {PollPage} from 'PollPage';
@@ -20,7 +20,12 @@ describe('PollPage', () => {
 
   describe('PollPage.ballot', () => {
     it('should render a ballot form', () => {
-      let page = ReactTestUtils.renderIntoDocument(<PollPage />);
+      let store = configureStore();
+      let page = ReactTestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <PollPage />
+        </Provider>
+      );
       let ballot = ReactTestUtils.scryRenderedDOMComponentsWithClass(page, 'ballot');
       expect(ballot.length).toBe(1);
     });
@@ -28,7 +33,12 @@ describe('PollPage', () => {
 
   describe('PollPage.displayPollData', () => {
     it('should render data visualizations of the polling data', () => {
-      let page = ReactTestUtils.renderIntoDocument(<PollPage />);
+      let store = configureStore();
+      let page = ReactTestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <PollPage />
+        </Provider>
+      );
       let data = ReactTestUtils.scryRenderedDOMComponentsWithClass(page, 'data');
       expect(data.length).toBe(1);
     });

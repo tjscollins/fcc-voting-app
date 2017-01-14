@@ -1,5 +1,5 @@
 /*----------Modules----------*/
-import React from 'react';
+import React, {PropTypes as PT} from 'react';
 import {connect} from 'react-redux';
 
 /*----------Redux----------*/
@@ -15,9 +15,9 @@ export class Header extends React.Component {
   }
 
   /**
-   * loginManager - manages the display of login/logout buttons
+   * loginManager - manages the display of logout buttons
    *
-   * @return {JSX}  JSX element for login/logout button
+   * @return {JSX}  JSX element for logout button
    */
   loginManager() {
     if(this.props.session.data) {
@@ -38,6 +38,7 @@ export class Header extends React.Component {
   logout() {
     dispatch(actions.endSession());
   }
+
   render() {
     let {dispatch, session} = this.props;
     if(!session.data) $.ajax({
@@ -56,6 +57,7 @@ export class Header extends React.Component {
           <a className='navbar-brand' href='/' onClick={this.hide}>
             <i className='fa fa-check-square-o' aria-hidden='true' />VoteNow! &nbsp;
           </a>
+
           <button type='button' className='navbar-toggle collapsed' data-toggle='collapse' data-target='#navbar-collapse' aria-expanded='false'>
             <span className='sr-only'>Toggle navigation</span>
             <span className='icon-bar' />
@@ -64,6 +66,9 @@ export class Header extends React.Component {
           </button>
         </div>
         <div className='collapse navbar-collapse' id='navbar-collapse'>
+          <ul className='nav navbar-nav navbar-left'>
+            <li className=''><a href='/createpoll'>Create Poll</a></li>
+          </ul>
           <ul className='nav navbar-nav navbar-right'>
             <li>{this.loginManager()}</li>
           </ul>
@@ -74,8 +79,8 @@ export class Header extends React.Component {
 }
 
 Header.propTypes = {
-  session: React.PropTypes.object,
-  dispatch: React.PropTypes.func,
+  session: PT.object,
+  dispatch: PT.func,
 };
 
 export default connect((state) => state)(Header);

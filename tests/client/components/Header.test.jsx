@@ -19,20 +19,19 @@ describe('Header', () => {
   });
 
   describe('Header.loginManager', () => {
-    it('should render Login button if user is not logged in', ()=>{
-      let header = ReactTestUtils.renderIntoDocument(<Header loggedIn />);
+    it('should NOT render a button if user is not logged in', ()=>{
+      let header = ReactTestUtils.renderIntoDocument(<Header session={{data: false}} />);
+      let button = ReactTestUtils.scryRenderedDOMComponentsWithClass(header, 'btn-primary');
+
+      expect(button.length).toBe(0);
+    });
+
+    it('should render the Logout button if the user is logged in', () => {
+      let header = ReactTestUtils.renderIntoDocument(<Header session={{data: true}} />);
       let button = ReactTestUtils.scryRenderedDOMComponentsWithClass(header, 'btn-primary');
 
       expect(button.length).toBe(1);
       expect(button[0].innerHTML).toBe('Logout');
-    });
-
-    it('should render the Logout button if the user is logged in', () => {
-      let header = ReactTestUtils.renderIntoDocument(<Header loggedIn={false} />);
-      let button = ReactTestUtils.scryRenderedDOMComponentsWithClass(header, 'btn-primary');
-
-      expect(button.length).toBe(1);
-      expect(button[0].innerHTML).toBe('Login');
     });
   });
 });

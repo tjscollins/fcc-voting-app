@@ -3,6 +3,7 @@ import React from 'react';
 import {Router, Route, IndexRoute, Link, browserHistory} from 'react-router';
 
 /*----------Components----------*/
+import CreatePoll from 'CreatePoll';
 import Index from 'Index';
 import Login from 'Login';
 import RouteContainer from 'RouteContainer';
@@ -26,6 +27,7 @@ class Routes extends React.Component {
           <Route path='login' component={Login} />
           <Route path='profile' component={Profile} />
           <Route path='poll*' component={PollPage} />
+          <Route path='createpoll' component={CreatePoll} />
         </Route>
       </Router>
     );

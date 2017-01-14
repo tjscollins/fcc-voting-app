@@ -1,3 +1,12 @@
+// export const pollsReducer = (state=[], action) => {
+//     switch(action.type) {
+//       case 'NEW_POLL':
+//         return [...state,
+//           action.poll];
+//       default:
+//         return state;
+//     };
+// };
 
 export const sessionReducer = (state={data: null, service: null}, action) => {
   switch(action.type) {

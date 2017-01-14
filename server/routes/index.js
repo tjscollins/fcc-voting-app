@@ -1,9 +1,7 @@
 'use strict';
 /*eslint-disable require-jsdoc*/
-
 const path = process.cwd();
-const ClickHandler = require(path + '/server/controllers/clickHandler.server.js');
-const {getUserData} = require(path + '/server/controllers/userController.client.js');
+const PollModel = require(path + '/server/models/polls');
 
 module.exports = function(app, passport) {
   function isLoggedIn(req, res, next) {
@@ -14,8 +12,6 @@ module.exports = function(app, passport) {
       res.redirect('/login');
     }
   }
-
-  let clickHandler = new ClickHandler();
 
   app
     .route('/')
@@ -40,6 +36,39 @@ module.exports = function(app, passport) {
     .route('/profile')
     .get(isLoggedIn, function(req, res) {
       res.sendFile(path + '/public/index.html');
+    });
+
+  app
+    .route('/createPoll')
+    .get(isLoggedIn, function(req, res) {
+      res.sendFile(path + '/public/index.html');
+    })
+    .post(function(req, res) {
+      if (!req.body) {
+        res
+          .status(400)
+          .send();
+      }
+      let poll = new PollModel(req.body);
+      poll
+        .save()
+        .then((doc) => {
+          res.send(doc);
+        })
+        .catch((e) => {
+          res
+            .status(400)
+            .send(e);
+        });
+    });
+
+  app
+    .route('/polls')
+    .get(function(req, res) {
+      PollModel.find({}).then((polls) => {
+        console.log(polls);
+        res.send(polls);
+      });
     });
 
   app
@@ -76,12 +105,4 @@ module.exports = function(app, passport) {
       successRedirect: '/',
       failureRedirect: '/login',
     }));
-
-  app.route('/api/:id/').get(isLoggedIn, getUserData);
-
-  app
-    .route('/api/:id/clicks')
-    .get(isLoggedIn, clickHandler.getClicks)
-    .post(isLoggedIn, clickHandler.addClick)
-    .delete(isLoggedIn, clickHandler.resetClicks);
 };

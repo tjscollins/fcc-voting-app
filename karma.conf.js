@@ -10,6 +10,7 @@ module.exports = function(config) {
       'sinon',
     ],
     files: [
+      'node_modules/jquery/dist/jquery.min.js',
       'tests/client/**/*.test.jsx',
     ],
     preprocessors: {

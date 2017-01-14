@@ -19,11 +19,11 @@ const pollModel = new Schema({
     },
     _creator: {
       type: Schema.Types.ObjectId,
-      required: true,
+      // required: true,
     },
   },
   responses: {
-    options: Array,
+    answers: Array,
   },
 });
 

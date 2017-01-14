@@ -6,6 +6,8 @@ const routes = require('./server/routes/index.js');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session');
+const bodyParser = require('body-parser');
+
 
 const app = express();
 require('dotenv').load();
@@ -14,6 +16,7 @@ require('./server/config/passport')(passport);
 mongoose.connect(process.env.MONGO_URI);
 mongoose.Promise = global.Promise;
 
+app.use(bodyParser.json());
 app.use('/controllers', express.static(process.cwd() + '/server/controllers'));
 app.use('/public', express.static(process.cwd() + '/public'));
 app.use('/common', express.static(process.cwd() + '/server/common'));

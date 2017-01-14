@@ -18,13 +18,13 @@ describe('PollList', () => {
     expect(PollList).toExist();
   });
 
-  describe('PollList.buildList', () => {
-    it('should return a bootstrap container with list-rows', () => {
-      let list = ReactTestUtils.renderIntoDocument(<PollList />);
-      let containerFluid = ReactTestUtils.scryRenderedDOMComponentsWithClass(list, 'container-fluid');
-      let listRows = ReactTestUtils.scryRenderedDOMComponentsWithClass(list, 'list-row');
-      expect(containerFluid.length).toBe(1);
-      expect(listRows.length).toBeGreaterThanOrEqualTo(1);
-    });
-  });
+  // describe('PollList.buildList', () => {
+  //   it('should return a bootstrap container with list-rows', () => {
+  //     let list = ReactTestUtils.renderIntoDocument(<PollList />);
+  //     let containerFluid = ReactTestUtils.scryRenderedDOMComponentsWithClass(list, 'container-fluid');
+  //     let listRows = ReactTestUtils.scryRenderedDOMComponentsWithClass(list, 'list-row');
+  //     expect(containerFluid.length).toBe(1);
+  //     expect(listRows.length).toBeGreaterThanOrEqualTo(1);
+  //   });
+  // });
 });

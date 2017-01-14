@@ -11,3 +11,10 @@ export const endSession = () => {
     type: 'END_SESSION',
   };
 };
+
+// export const newPoll = (poll) => {
+//   return {
+//     type: 'NEW_POLL',
+//     poll,
+//   };
+// };
