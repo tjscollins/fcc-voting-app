@@ -16,7 +16,7 @@ export class Index extends React.Component {
   }
   getPolls() {
     $
-      .ajax({url: '/polls', type: 'get'})
+      .ajax({url: '/api/polls', type: 'get'})
       .done((list) => {
         let polls = list.map((poll) => {
           return (

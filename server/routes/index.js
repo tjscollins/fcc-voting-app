@@ -63,12 +63,25 @@ module.exports = function(app, passport) {
     });
 
   app
-    .route('/polls')
+    .route('/api/polls')
     .get(function(req, res) {
-      PollModel.find({}).then((polls) => {
-        console.log(polls);
-        res.send(polls);
-      });
+      PollModel
+        .find({})
+        .then((polls) => {
+          console.log(polls);
+          res.send(polls);
+        });
+    });
+
+  app
+    .route('/api/poll:id')
+    .get(function(req, res) {
+      PollModel
+        .find({_id: req.params.id})
+        .then((polls) => {
+          console.log(polls);
+          res.send(polls[0]);
+        });
     });
 
   app

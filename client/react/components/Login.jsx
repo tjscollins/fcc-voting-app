@@ -25,18 +25,6 @@ export class Login extends React.Component {
               <p><i className='fa fa-2x fa-google' /> &nbsp; Login with Google</p>
             </div>
           </a>
-          <br /><br />
-          <a href='/auth/twitter'>
-            <div className='btn btn-info' id='login-btn'>
-              <p><i className='fa fa-2x fa-twitter' /> &nbsp; Login with Twitter</p>
-            </div>
-          </a>
-          <br /><br />
-          <a href='/auth/twitter'>
-            <div className='btn btn-primary' id='login-btn'>
-              <p><i className='fa fa-2x fa-facebook' /> &nbsp; Login with Facebook</p>
-            </div>
-          </a>
           <br /> <br />
           <a href='/auth/github'>
             <div className='btn btn-success' id='login-btn'>
@@ -48,9 +36,5 @@ export class Login extends React.Component {
     );
   }
 }
-
-Login.propTypes = {
-  // dispatch: React.PropTypes.func.isRequired,
-};
 
 export default Login;
