@@ -20,14 +20,16 @@ describe('PollPage', () => {
   });
 
   it('should call $.ajax to fetch ballot and data', () => {
-    let $expectation = sinon.mock(jQuery).expects('ajax').atLeast(2);
+    let spy = sinon.spy(jQuery, 'ajax');
     let store = configureStore();
     let page = ReactTestUtils.renderIntoDocument(
       <Provider store={store}>
         <PollPage />
       </Provider>
     );
-    $expectation.verify();
+    expect(spy.called).toBe(true);
+    expect(spy.firstCall.args[0].url).toBe('/api/poll1234');
+    spy.restore();
   });
 
   describe('PollPage.ballot', () => {

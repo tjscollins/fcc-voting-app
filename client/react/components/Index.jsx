@@ -20,7 +20,7 @@ export class Index extends React.Component {
       .done((list) => {
         let polls = list.map((poll) => {
           return (
-            <div key={poll._id} className='row list-row top-row'>
+            <div key={`getPolls-${poll._id}`} className='row list-row top-row'>
               <a href={'/poll' + poll._id}>
                 <div className='title col-xs-6 col-xs-push-3'>
                   {poll.question.displayName}

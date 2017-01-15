@@ -40,7 +40,7 @@ describe('Header', () => {
       let spy = sinon.spy();
       let header = ReactTestUtils.renderIntoDocument(<Header session={{data: true}} dispatch={spy} />);
       header.logout();
-      expect(spy.called).toBe(true);
+      expect(spy.calledWith({type: 'END_SESSION'})).toBe(true);
     });
   });
 });
