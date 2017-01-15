@@ -3,7 +3,7 @@
 /*----------Modules----------*/
 import expect from 'expect';
 import React from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-addons-test-utils';
 
 /*----------Redux----------*/
@@ -32,6 +32,15 @@ describe('Header', () => {
 
       expect(button.length).toBe(1);
       expect(button[0].innerHTML).toBe('Logout');
+    });
+  });
+
+  describe('Header.logout', () => {
+    it('should dispatch a logout action', () => {
+      let spy = sinon.spy();
+      let header = ReactTestUtils.renderIntoDocument(<Header session={{data: true}} dispatch={spy} />);
+      header.logout();
+      expect(spy.called).toBe(true);
     });
   });
 });

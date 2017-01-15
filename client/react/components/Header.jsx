@@ -36,7 +36,7 @@ export class Header extends React.Component {
    *
    */
   logout() {
-    dispatch(actions.endSession());
+    this.props.dispatch(actions.endSession());
   }
 
   render() {
