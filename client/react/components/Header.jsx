@@ -44,12 +44,14 @@ export class Header extends React.Component {
     if(!session.data) $.ajax({
       url: '/api/me',
       type: 'get',
-    }).done((data) => {
-      if(data._id && !session.data) {
-        dispatch(actions.initiateSession('github', data));
-      }
-    }).fail((err) => {
-      console.error(err);
+      success: (data) => {
+        if(data._id && !session.data) {
+          dispatch(actions.initiateSession('github', data));
+        }
+      },
+      failure: (err) => {
+        console.error(err);
+      },
     });
     return (
       <nav id='Header' className='navbar navbar-default navbar-static-top'>

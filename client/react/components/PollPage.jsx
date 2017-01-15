@@ -8,8 +8,15 @@ import Header from 'Header';
 export class PollPage extends React.Component {
   constructor() {
     super();
+    let id = () => {
+      // Returns mocked value for karma testing purposes if pathname doesn't match
+      return window
+        .location
+        .pathname
+        .match(/poll([\d\w]+)$/) || [null, '1234'];
+    };
     this.state = {
-      _id: window.location.pathname.match(/poll([\d\w]+)$/)[1],
+      _id: id()[1],
       ballot: (
         <div className='ballot'>
           Ballot
@@ -22,6 +29,7 @@ export class PollPage extends React.Component {
       ),
       displayBallot: false,
       displayData: false,
+      voted: false,
     };
   }
 
@@ -31,11 +39,12 @@ export class PollPage extends React.Component {
    * @param  {Object} poll object from MongoDB
    */
   ballot(poll) {
+    // console.log(poll);
     let {answers, displayName, text} = poll.question;
     let ballot = (
       <div className='ballot'>
         <h4>{displayName}</h4>
-        <form>
+        <form onSubmit={this.submitVote}>
           <div className='form-group'>
             <p>{text}</p>
           </div>
@@ -53,8 +62,9 @@ export class PollPage extends React.Component {
         </form>
       </div>
     );
-    if (!this.state.displayBallot) this.setState({ballot, displayBallot: true});
-  }
+    if (!this.state.displayBallot)
+      this.setState({ballot, displayBallot: true});
+    }
 
   /**
    * displayPollData - render the poll data displaying current results of that poll
@@ -68,17 +78,22 @@ export class PollPage extends React.Component {
         POLL PAGE: {this.state._id}
       </div>
     );
-    if (!this.state.displayData) this.setState({data: pollData, displayData: true});
+    if (!this.state.displayData)
+      this.setState({data: pollData, displayData: true});
+    }
+
+  submitVote(e) {
+    e.preventDefault();
+    console.log('Submitting Your Vote!');
   }
 
   render() {
-    $.ajax({
-      url: `/api/poll${this.state._id}`,
-      type: 'get',
-    }).done((list) => {
-      this.ballot(list);
-      this.displayPollData(list);
-    });
+    if (!this.state.displayData && !this.state.displayBallot)
+    $
+      .ajax({url: `/api/poll${this.state._id}`, type: 'get', success: (list) => {
+        this.ballot(list);
+        this.displayPollData(list);
+      }});
     return (
       <div>
         <Header />
