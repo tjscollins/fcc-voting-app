@@ -36,9 +36,6 @@ export class PollPage extends React.Component {
     };
   }
 
-  componentDidMount() {
-    if(this.state.poll) plot(this.state.poll.question.answers, this.state.poll.responses.answers);
-  }
 
   /**
    * ballot - render ballot form for user to vote in current poll
@@ -72,26 +69,7 @@ export class PollPage extends React.Component {
       </div>
     );
     if (!this.state.displayBallot)
-      this.setState({ballot, displayBallot: true});
-    }
-
-  /**
-   * displayPollData - render the poll data displaying current results of that poll
-   *
-   * @param  {Object} poll object from MongoDB
-   */
-  displayPollData(poll) {
-    let {question, responses} = poll;
-    console.log(question.answers, responses.answers);
-    let pollData = (
-      <div className='data'>
-        POLL PAGE: {this.state._id}
-        <div id='chart' className='poll-chart'>
-        </div>
-      </div>
-    );
-    if (!this.state.displayData)
-      this.setState({poll: poll, data: pollData, displayData: true});
+      this.setState({poll, ballot, displayBallot: true, displayData: true});
     }
 
   /**
@@ -119,8 +97,15 @@ export class PollPage extends React.Component {
     $
       .ajax({url: `/api/poll${this.state._id}`, type: 'get', success: (list) => {
         this.ballot(list);
-        this.displayPollData(list);
       }});
+    if(this.state.poll) {
+      $('#plot').remove();
+      plot(this.state.poll.question.answers,
+          this.state.poll.responses.answers,
+          {
+            radius: 100,
+          });
+        }
     return (
       <div>
         <Header />
@@ -130,7 +115,10 @@ export class PollPage extends React.Component {
               {this.state.ballot}
             </div>
             <div className='col-xs-12 col-sm-7'>
-              {this.state.data}
+              <div className='data'>
+                <h4 className='poll-results'>Poll Results</h4>
+                <div id='chart' className='poll-chart' />
+              </div>
             </div>
           </div>
         </div>
