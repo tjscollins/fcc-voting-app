@@ -87,8 +87,7 @@ export class PollPage extends React.Component {
         req.setRequestHeader('Content-type', 'application/json');
       },
     }).done((res, status) => {
-      console.log(res, status);
-      this.setState({displayData: false});
+      this.setState({displayBallot: false, displayData: false});
     });
   }
 

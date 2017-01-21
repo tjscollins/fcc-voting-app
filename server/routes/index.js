@@ -8,7 +8,6 @@ module.exports = function(app, passport) {
     if (req.isAuthenticated()) {
       return next();
     } else {
-      console.log('Unauthenticated access!');
       res.redirect('/login');
     }
   }
@@ -53,6 +52,7 @@ module.exports = function(app, passport) {
       poll
         .save()
         .then((doc) => {
+          // console.log(doc);
           res.send(doc);
         })
         .catch((e) => {
