@@ -24,6 +24,7 @@ module.exports = {
     root: __dirname,
     modulesDirectories: [
       'node_modules',
+      './client/d3/',
       './client/react/components/',
       './client/redux/',
     ],

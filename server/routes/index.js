@@ -79,9 +79,34 @@ module.exports = function(app, passport) {
       PollModel
         .find({_id: req.params.id})
         .then((polls) => {
-          console.log(polls);
           res.send(polls[0]);
         });
+    });
+
+  app
+    .route('/api/vote:id')
+    .post(function(req, res) {
+      let choice = parseInt(req.body.choice);
+      let update = {
+        $inc: {},
+      };
+      update.$inc['responses.answers.' + choice] = 1;
+      let options = {
+        new: true,
+        runValidators: true,
+        upsert: true,
+      };
+
+      PollModel.findByIdAndUpdate(req.params.id, update, options, (err, doc) => {
+        if (err) {
+          res
+            .status(400)
+            .send(err);
+        }
+        res
+          .status(200)
+          .send(doc);
+      });
     });
 
   app

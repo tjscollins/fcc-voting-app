@@ -1,7 +1,6 @@
 'use strict';
 
 const express = require('express');
-// const expose = require('express-expose');
 const routes = require('./server/routes/index.js');
 const mongoose = require('mongoose');
 const passport = require('passport');
@@ -30,13 +29,6 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
-// app.use(function(req, res, next) {
-//     if (req.isAuthenticated()) {
-//       console.log('Exposing user');
-//       res.expose(req.user, 'user');
-//   };
-//     next();
-// });
 routes(app, passport);
 
 
