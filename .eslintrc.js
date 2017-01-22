@@ -23,6 +23,7 @@ module.exports = {
   "rules": {
     "max-len": ["error", 150],
     "no-unused-vars": "warn",
+    "react/jsx-no-bind": "off",
     "spaced-comment": "off"
   },
   "settings": {

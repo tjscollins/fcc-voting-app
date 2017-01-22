@@ -81,6 +81,13 @@ module.exports = function(app, passport) {
         .then((polls) => {
           res.send(polls[0]);
         });
+    })
+    .delete(function(req, res) {
+      PollModel
+        .findByIdAndRemove({_id: req.params.id})
+        .then((polls) => {
+          res.send(polls);
+        });
     });
 
   app

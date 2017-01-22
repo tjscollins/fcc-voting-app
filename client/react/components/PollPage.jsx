@@ -1,5 +1,6 @@
 /*----------Modules----------*/
 import React from 'react';
+import {connect} from 'react-redux';
 
 /*----------Components----------*/
 import Header from 'Header';
@@ -34,6 +35,28 @@ export class PollPage extends React.Component {
       poll: {question: {answers: []}, responses: {answers: []}},
       newOption: null,
     };
+  }
+
+  /**
+   * deleteButton - render a delete button if the poll belongs to the logged in user
+   *
+   * @return {JSX}  Button element
+   */
+  deleteButton() {
+    let {session} = this.props;
+    if(session.data && session.data._id === this.state.poll.question._creator)
+      return <button onClick={this.deletePoll.bind(this)} className='btn btn-danger form-control'>Delete</button>;
+  }
+
+  deletePoll() {
+    let ajaxOptions = {
+        type: 'delete',
+        url: `/api/poll${this.state._id}`,
+      };
+    console.log('Deleting ', this.state._id);
+    $.ajax(ajaxOptions).done((res, status) => {
+      window.location.href='/profile';
+    });
   }
 
   /**
@@ -109,6 +132,7 @@ export class PollPage extends React.Component {
               <div className='data'>
                 <h4 className='poll-results'>Poll Results</h4>
                 <div id='chart' className='poll-chart' />
+                {this.deleteButton.call(this)}
               </div>
             </div>
           </div>
@@ -118,4 +142,8 @@ export class PollPage extends React.Component {
   }
 }
 
-export default PollPage;
+PollPage.propTypes = {
+  session: React.PropTypes.object,
+};
+
+export default connect((state) => state)(PollPage);
