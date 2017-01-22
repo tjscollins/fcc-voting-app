@@ -37,7 +37,7 @@ export class Index extends React.Component {
     return (
       <div>
         <Header />
-        <PollList list={this.state.polls} />
+        <PollList title={'Active Polls'} list={this.state.polls} />
       </div>
     );
   }

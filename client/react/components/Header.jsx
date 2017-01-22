@@ -39,6 +39,23 @@ export class Header extends React.Component {
     this.props.dispatch(actions.endSession());
   }
 
+  /**
+   * userUI - Generates header links for user ui
+   *
+   * @return {JSX}  Header Links for User UI
+   */
+  userUI() {
+    if(this.props.session.data) {
+      return (
+        <li>
+          <a href='/profile'>View My Polls</a>
+        </li>
+          );
+    } else {
+      return (<div />);
+    }
+  }
+
   render() {
     let {dispatch, session} = this.props;
     if(!session.data) $.ajax({
@@ -70,6 +87,7 @@ export class Header extends React.Component {
         <div className='collapse navbar-collapse' id='navbar-collapse'>
           <ul className='nav navbar-nav navbar-left'>
             <li className=''><a href='/createpoll'>Create Poll</a></li>
+            {this.userUI()}
           </ul>
           <ul className='nav navbar-nav navbar-right'>
             <li>{this.loginManager()}</li>

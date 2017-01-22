@@ -86,11 +86,29 @@ module.exports = function(app, passport) {
   app
     .route('/api/vote:id')
     .post(function(req, res) {
-      let choice = parseInt(req.body.choice);
+      let choice = req.body.choice.match(/^\d+$/)
+        ? parseInt(req.body.choice)
+        : req.body.choice;
       let update = {
         $inc: {},
       };
-      update.$inc['responses.answers.' + choice] = 1;
+      switch(typeof choice) {
+        case 'string':
+          update = {
+            $set: {},
+          };
+          update.$set['question.answers.' + req.body.n] = choice;
+          update.$set['responses.answers.' + req.body.n] = 0;
+          console.log('string!', choice);
+          break;
+        case 'number':
+          update.$inc['responses.answers.' + choice] = 1;
+          console.log('number', choice);
+          break;
+        default:
+          break;
+      }
+
       let options = {
         new: true,
         runValidators: true,

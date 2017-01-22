@@ -12,16 +12,17 @@ const id = 'plot';
  * @param  {Object} options = {} Contains options for various display parameters
  */
 function plot(labels, data) {
-  console.log('Plotting');
   const margin = {
     top: 25,
     bottom: 50,
-    left: 85,
+    left: 90,
     right: 25,
   };
 
-  const [width,
-    height, radius
+  const [
+    width,
+    height,
+    radius,
   ] = [400, 300, 100];
 
   let color = d3
@@ -54,8 +55,7 @@ function plot(labels, data) {
   .append('path')
   .attr('d', arc)
   .attr('fill', (d, i) => {
-    // console.log('Color for ', d, color(d.value));
-    return color(d.value);
+    return color(labels[i]);
   });
 }
 

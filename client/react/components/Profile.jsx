@@ -1,32 +1,56 @@
 /*----------Modules----------*/
 import React from 'react';
+import {connect} from 'react-redux';
 
 /*----------Components----------*/
-
+import Header from 'Header';
+import PollList from 'PollList';
 
 /*eslint-disable require-jsdoc*/
 export class Profile extends React.Component {
   constructor() {
     super();
+    this.state = {
+      polls: [],
+    };
+  }
+  componentWillUpdate(nextProps, nextState) {
+    if(!Object.is(nextProps.session, this.props.session)) {
+      this.getPolls(nextProps);
+    }
+  }
+  getPolls(props) {
+    $
+      .ajax({url: '/api/polls', type: 'get'})
+      .done((list) => {
+        let polls = list.filter((poll) => {
+          return poll.question._creator === props.session.data._id;
+        }).map((poll) => {
+          return (
+            <div key={`getPolls-${poll._id}`} className='row list-row top-row'>
+              <a href={'/poll' + poll._id}>
+                <div className='title col-xs-6 col-xs-push-3'>
+                  {poll.question.displayName}
+                </div>
+              </a>
+            </div>
+          );
+        });
+        this.setState({polls});
+      });
   }
   render() {
     return (
       <div>
-        <div className='container'>
-          <div className='github-profile'>
-            <img src='/public/img/gh-mark-32px.png' alt='github logo' />
-            <p><span>ID: </span><span id='profile-id' className='profile-value' /></p>
-            <p><span>Username: </span><span id='profile-username' className='profile-value' /></p>
-            <p><span>Display Name: </span><span id='display-name' className='profile-value' /></p>
-            <p><span>Repositories: </span><span id='profile-repos' className='profile-value' /></p>
-            <a className='menu' href='/'>Home</a>
-            <p id='menu-divide'>|</p>
-            <a className='menu' href='/logout'>Logout</a>
-          </div>
-        </div>
+        <Header />
+        <PollList title={'My Polls'} list={this.state.polls} />
       </div>
-  );
+      );
   }
 }
 
-export default Profile;
+Profile.propTypes = {
+  session: React.PropTypes.object,
+};
+
+export default connect((state) => state)(Profile);

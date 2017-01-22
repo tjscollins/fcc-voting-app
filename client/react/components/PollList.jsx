@@ -12,7 +12,7 @@ export class PollList extends React.Component {
     return (
       <div className='container well poll-list'>
         <div className='row'>
-          <h1 className='title'>Active Polls</h1>
+          <h1 className='title'>{this.props.title}</h1>
         </div>
         <div className='row'>
           <div className='container-fluid inner-list'>
@@ -26,6 +26,7 @@ export class PollList extends React.Component {
 
 PollList.propTypes = {
   list: React.PropTypes.array,
+  title: React.PropTypes.string,
 };
 
 export default PollList;

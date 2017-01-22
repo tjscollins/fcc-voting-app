@@ -31,6 +31,7 @@ export class CreatePoll extends React.Component {
             .pollOptions
             .value
             .split(','),
+        _creator: this.props.session.data._id,
         },
       }),
       beforeSend: function(req) {
@@ -90,6 +91,7 @@ export class CreatePoll extends React.Component {
 
 CreatePoll.propTypes = {
   dispatch: React.PropTypes.func,
+  session: React.PropTypes.object,
 };
 
 export default connect((state) => state)(CreatePoll);

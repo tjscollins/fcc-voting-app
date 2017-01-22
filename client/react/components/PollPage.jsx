@@ -30,47 +30,11 @@ export class PollPage extends React.Component {
         </div>
       ),
       displayBallot: false,
-      displayData: false,
       voted: false,
-      poll: null,
+      poll: {question: {answers: []}, responses: {answers: []}},
+      newOption: null,
     };
   }
-
-
-  /**
-   * ballot - render ballot form for user to vote in current poll
-   *
-   * @param  {Object} poll object from MongoDB
-   */
-  ballot(poll) {
-    let {answers, displayName, text} = poll.question;
-    let ballot = (
-      <div className='ballot'>
-        <h4>{displayName}</h4>
-        <form onSubmit={this.submitVote.bind(this)}>
-          <div className='form-group'>
-            <p>{text}</p>
-          </div>
-          <div className='form-group'>
-            {answers.map((ans, i) => {
-              return (
-                <div key={`ans-${i}`}>
-                  <input value={`${i}`} name='answers' id={`ans-${i}-id`} type='radio'
-                    autoComplete='off' checked={this.state.choice === `${i}`} onClick={() => {
-                      this.setState({choice: `${i}`, displayBallot: false});
-                    }} />
-                  <label htmlFor={`ans-${i}-id`}>{ans}</label>
-                </div>
-              );
-            })}
-          </div>
-          <button className='btn btn-default form-control' type='submit'>Submit</button>
-        </form>
-      </div>
-    );
-    if (!this.state.displayBallot)
-      this.setState({poll, ballot, displayBallot: true, displayData: true});
-    }
 
   /**
    * submitVote - Sends vote data to MongoDB
@@ -79,23 +43,26 @@ export class PollPage extends React.Component {
    */
   submitVote(e) {
     e.preventDefault();
-    $.ajax({
-      type: 'post',
-      url: `/api/vote${this.state._id}`,
-      data: JSON.stringify({choice: this.state.choice}),
-      beforeSend: function(req) {
-        req.setRequestHeader('Content-type', 'application/json');
-      },
-    }).done((res, status) => {
-      this.setState({displayBallot: false, displayData: false});
+    let choice = this.refs.newOption.value || this.state.choice;
+    let ajaxOptions = {
+        type: 'post',
+        url: `/api/vote${this.state._id}`,
+        data: JSON.stringify({choice, n: this.state.poll.question.answers.length}),
+        beforeSend: function(req) {
+          req.setRequestHeader('Content-type', 'application/json');
+        },
+      };
+    $.ajax(ajaxOptions).done((res, status) => {
+      this.setState({poll: {question: {answers: []}, responses: {answers: []}}, displayBallot: false});
+      this.refs.newOption.value='';
     });
   }
 
   render() {
-    if (!this.state.displayData || !this.state.displayBallot)
+    if (!this.state.displayBallot)
     $
-      .ajax({url: `/api/poll${this.state._id}`, type: 'get', success: (list) => {
-        this.ballot(list);
+      .ajax({url: `/api/poll${this.state._id}`, type: 'get', success: (poll) => {
+        this.setState({poll, displayBallot: true});
       }});
     if(this.state.poll) {
       $('#plot').remove();
@@ -105,13 +72,38 @@ export class PollPage extends React.Component {
             radius: 100,
           });
         }
+    let {answers, displayName, text} = this.state.poll.question;
     return (
       <div>
         <Header />
         <div className='container well poll-box'>
           <div className='row'>
             <div className='col-xs-12 col-sm-5'>
-              {this.state.ballot}
+              <div className='ballot'>
+                <h4>{displayName}</h4>
+                <form onSubmit={this.submitVote.bind(this)}>
+                  <div className='form-group'>
+                    <p>{text}</p>
+                  </div>
+                  <div className='form-group'>
+                    {answers.map((ans, i) => {
+                      return (
+                        <div key={`ans-${i}`}>
+                          <input value={`${i}`} name='answers' id={`ans-${i}-id`} type='radio'
+                            autoComplete='off' checked={this.state.choice === `${i}`} onClick={() => {
+                              this.setState({choice: `${i}`, displayBallot: false});
+                            }} />
+                          <label htmlFor={`ans-${i}-id`}>{ans}</label>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div className='form-group'>
+                    <input type='text' ref='newOption' placeholder='New Option' className='form-control' />
+                  </div>
+                  <button className='btn btn-default form-control' type='submit'>Submit</button>
+                </form>
+              </div>
             </div>
             <div className='col-xs-12 col-sm-7'>
               <div className='data'>
