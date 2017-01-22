@@ -39,6 +39,7 @@ export class CreatePoll extends React.Component {
       },
     }).done((res, status, jqXHR) => {
       console.log(res);
+      window.location.href=`/poll${res._id}`;
     });
   }
 
