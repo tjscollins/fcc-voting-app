@@ -1,7 +1,7 @@
 {
-  "name": "mern-template",
+  "name": "voting-app",
   "version": "1.0.0",
-  "description": "A React-Redux fork of Clementinejs-FCC",
+  "description": "A Full Stack Voting App for FCC",
   "main": "server.js",
   "repository": {
     "type": "git",
