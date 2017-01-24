@@ -28,6 +28,7 @@
   "author": "Tyler Collins",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.16.0",
     "bootstrap-sass": "^3.3.7",
     "d3": "^4.4.3",
     "dotenv": "^2.0.0",
