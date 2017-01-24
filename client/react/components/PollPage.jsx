@@ -32,8 +32,15 @@ export class PollPage extends React.Component {
       ),
       displayBallot: false,
       voted: false,
-      poll: {question: {answers: []}, responses: {answers: []}},
-      newOption: null,
+      poll: {
+        question: {
+          answers: []
+        },
+        responses: {
+          answers: []
+        }
+      },
+      newOption: null
     };
   }
 
@@ -44,19 +51,25 @@ export class PollPage extends React.Component {
    */
   deleteButton() {
     let {session} = this.props;
-    if(session.data && session.data._id === this.state.poll.question._creator)
-      return <button onClick={this.deletePoll.bind(this)} className='btn btn-danger form-control'>Delete</button>;
-  }
+    if (session.data && session.data._id === this.state.poll.question._creator)
+      return <button
+        onClick={this
+        .deletePoll
+        .bind(this)}
+        className='btn btn-danger form-control'>Delete</button>;
+    }
 
   deletePoll() {
     let ajaxOptions = {
-        type: 'delete',
-        url: `/api/poll${this.state._id}`,
-      };
+      type: 'delete',
+      url: `/api/poll${this.state._id}`
+    };
     console.log('Deleting ', this.state._id);
-    $.ajax(ajaxOptions).done((res, status) => {
-      window.location.href='/profile';
-    });
+    $
+      .ajax(ajaxOptions)
+      .done((res, status) => {
+        window.location.href = '/profile';
+      });
   }
 
   /**
@@ -68,43 +81,82 @@ export class PollPage extends React.Component {
     e.preventDefault();
     let choice = this.refs.newOption.value || this.state.choice;
     let ajaxOptions = {
-        type: 'post',
-        url: `/api/vote${this.state._id}`,
-        data: JSON.stringify({choice, n: this.state.poll.question.answers.length}),
-        beforeSend: function(req) {
-          req.setRequestHeader('Content-type', 'application/json');
-        },
-      };
-    $.ajax(ajaxOptions).done((res, status) => {
-      this.setState({poll: {question: {answers: []}, responses: {answers: []}}, displayBallot: false});
-      this.refs.newOption.value='';
-    });
+      type: 'post',
+      url: `/api/vote${this.state._id}`,
+      data: JSON.stringify({choice, n: this.state.poll.question.answers.length}),
+      beforeSend: function(req) {
+        req.setRequestHeader('Content-type', 'application/json');
+      }
+    };
+    $
+      .ajax(ajaxOptions)
+      .done((res, status) => {
+        this.setState({
+          poll: {
+            question: {
+              answers: []
+            },
+            responses: {
+              answers: []
+            }
+          },
+          displayBallot: false
+        });
+        this.refs.newOption.value = '';
+      });
   }
 
   render() {
     if (!this.state.displayBallot)
-    $
-      .ajax({url: `/api/poll${this.state._id}`, type: 'get', success: (poll) => {
-        this.setState({poll, displayBallot: true});
-      }});
-    if(this.state.poll) {
-      $('#plot').remove();
-      plot(this.state.poll.question.answers,
-          this.state.poll.responses.answers,
-          {
-            radius: 100,
-          });
+      $.ajax({
+        url: `/api/poll${this.state._id}`,
+        type: 'get',
+        success: (poll) => {
+          this.setState({poll, displayBallot: true});
         }
+      });
+    if (this.state.poll) {
+      $('#plot').remove();
+      plot(this.state.poll.question.answers, this.state.poll.responses.answers, {radius: 100});
+    }
     let {answers, displayName, text} = this.state.poll.question;
+
+    // Load Twitter Code
+    window.twttr = (function(d, s, id) {
+      var js,
+        fjs = d.getElementsByTagName(s)[0],
+        t = window.twttr || {};
+      if (d.getElementById(id))
+        return t;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "https://platform.twitter.com/widgets.js";
+      fjs
+        .parentNode
+        .insertBefore(js, fjs);
+
+      t._e = [];
+      t.ready = function(f) {
+        t
+          ._e
+          .push(f);
+      };
+
+      return t;
+    }(document, "script", "twitter-wjs"));
+
     return (
       <div>
-        <Header />
+        <Header/>
         <div className='container well poll-box'>
           <div className='row'>
             <div className='col-xs-12 col-sm-5'>
               <div className='ballot'>
                 <h4>{displayName}</h4>
-                <form onSubmit={this.submitVote.bind(this)}>
+                <form
+                  onSubmit={this
+                  .submitVote
+                  .bind(this)}>
                   <div className='form-group'>
                     <p>{text}</p>
                   </div>
@@ -112,27 +164,45 @@ export class PollPage extends React.Component {
                     {answers.map((ans, i) => {
                       return (
                         <div key={`ans-${i}`}>
-                          <input value={`${i}`} name='answers' id={`ans-${i}-id`} type='radio'
-                            autoComplete='off' checked={this.state.choice === `${i}`} onClick={() => {
-                              this.setState({choice: `${i}`, displayBallot: false});
-                            }} />
+                          <input
+                            value={`${i}`}
+                            name='answers'
+                            id={`ans-${i}-id`}
+                            type='radio'
+                            autoComplete='off'
+                            checked={this.state.choice === `${i}`}
+                            onClick={() => {
+                            this.setState({choice: `${i}`, displayBallot: false});
+                          }}/>
                           <label htmlFor={`ans-${i}-id`}>{ans}</label>
                         </div>
                       );
                     })}
                   </div>
                   <div className='form-group'>
-                    <input type='text' ref='newOption' placeholder='New Option' className='form-control' />
+                    <input
+                      type='text'
+                      ref='newOption'
+                      placeholder='New Option'
+                      className='form-control'/>
                   </div>
                   <button className='btn btn-default form-control' type='submit'>Submit</button>
                 </form>
               </div>
+              <br/>
+              <a
+                target='_blank'
+                className="twitter-share-button"
+                href={`https://twitter.com/intent/tweet?text=Check%20Out%20My%20Poll%20${window.location.href}`}>
+                <i className='fa fa-twitter'></i>
+              </a>
             </div>
             <div className='col-xs-12 col-sm-7'>
               <div className='data'>
                 <h4 className='poll-results'>Poll Results</h4>
-                <div id='chart' className='poll-chart' />
-                {this.deleteButton.call(this)}
+                <div id='chart' className='poll-chart'/> {this
+                  .deleteButton
+                  .call(this)}
               </div>
             </div>
           </div>
@@ -143,7 +213,7 @@ export class PollPage extends React.Component {
 }
 
 PollPage.propTypes = {
-  session: React.PropTypes.object,
+  session: React.PropTypes.object
 };
 
 export default connect((state) => state)(PollPage);

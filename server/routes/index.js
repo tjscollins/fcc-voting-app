@@ -14,7 +14,7 @@ module.exports = function(app, passport) {
 
   app
     .route('/')
-    .get(isLoggedIn, function(req, res) {
+    .get(function(req, res) {
       res.sendFile(path + '/public/index.html');
     });
 
@@ -105,7 +105,7 @@ module.exports = function(app, passport) {
             $set: {},
           };
           update.$set['question.answers.' + req.body.n] = choice;
-          update.$set['responses.answers.' + req.body.n] = 0;
+          update.$set['responses.answers.' + req.body.n] = 1;
           console.log('string!', choice);
           break;
         case 'number':

@@ -26,7 +26,7 @@ export class Header extends React.Component {
       );
     } else {
       return (
-        <div />
+        <a href='/login'><button className='btn btn-primary'>Login</button></a>
       );
     }
   }
