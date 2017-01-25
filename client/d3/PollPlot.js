@@ -11,6 +11,10 @@ const id = 'plot';
  * @param  {Object} options = {} Contains options for various display parameters
  */
 function plot(labels, data) {
+  console.log('Plotting!');
+  let labeledData = data.map((d, i) => {
+    return [d, labels[i]];
+  });
   const margin = {
     top: 25,
     bottom: 50,
@@ -18,15 +22,26 @@ function plot(labels, data) {
     right: 25,
   };
 
-  const [
-    width,
+  const [width,
     height,
-    radius,
-  ] = [400, 300, 100];
+    radius] = [400, 300, 100];
 
   let color = d3
     .scaleOrdinal()
-    .range(['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f', '#ff7f00', '#cab2d6', '#6a3d9a', '#ffff99', '#b15928']);
+    .range([
+      '#a6cee3',
+      '#1f78b4',
+      '#b2df8a',
+      '#33a02c',
+      '#fb9a99',
+      '#e31a1c',
+      '#fdbf6f',
+      '#ff7f00',
+      '#cab2d6',
+      '#6a3d9a',
+      '#ffff99',
+      '#b15928',
+    ]);
   let chart = d3
     .select('#chart')
     .append('svg')
@@ -44,18 +59,48 @@ function plot(labels, data) {
   let pie = d3
     .pie()
     .value((d) => {
-      return d;
+      return d[0];
     })
     .sort(null);
 
-  let path = chart.selectAll('path')
-  .data(pie(data))
-  .enter()
-  .append('path')
-  .attr('d', arc)
-  .attr('fill', (d, i) => {
-    return color(labels[i]);
-  });
+  let path = chart
+    .selectAll('path')
+    .data(pie(labeledData))
+    .enter()
+    .append('path')
+    .attr('d', arc)
+    .attr('fill', (d) => {
+      console.log('Filling pie', d.data);
+      return color(d.data[1]);
+    })
+    .on('mouseover', function(d) {
+      div
+        .transition()
+        .duration(200)
+        .style('opacity', 0.8);
+      div.html('<h3>' + d.data[1] + '</h3><p>' + d.data[0] + ' Votes</p>');
+    })
+    .on('mouseout', function(d) {
+      div
+        .transition()
+        .duration(500)
+        .style('opacity', 0);
+    });
+
+  let div = d3
+    .select('body')
+    .append('div')
+    .attr('class', 'tooltip')
+    .attr('id', 'tooltip')
+    .style('opacity', 0);
+
+  window.onmousemove = function(e) {
+    let {clientX, clientY} = e;
+    $('.tooltip').each((index, node) => {
+      node.style.top = (clientY - 20) + 'px';
+      node.style.left = (clientX + 20) + 'px';
+    });
+  };
 }
 
 export default plot;

@@ -117,6 +117,7 @@ export class PollPage extends React.Component {
       });
     if (this.state.poll) {
       $('#plot').remove();
+      console.log('Calling plot...');
       plot(this.state.poll.question.answers, this.state.poll.responses.answers, {radius: 100});
     }
     let {answers, displayName, text} = this.state.poll.question;
