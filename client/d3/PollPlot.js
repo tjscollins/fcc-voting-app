@@ -78,7 +78,7 @@ function plot(labels, data) {
         .transition()
         .duration(200)
         .style('opacity', 0.8);
-      div.html('<h3>' + d.data[1] + '</h3><p>' + d.data[0] + ' Votes</p>');
+      div.html('<h4>' + d.data[1] + '</h4><p>' + d.data[0] + ' Votes</p>');
     })
     .on('mouseout', function(d) {
       div

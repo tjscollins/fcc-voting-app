@@ -1,15 +1,14 @@
 .bottom-row {
-  border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
 }
 
 .inner-list {
-  background-color: $list-bg;
   border-radius: 5px;
+  background-color: $list-bg;
 }
 
 .list-row {
-  padding: 5px;
   @include custom-transition($row-trans, $row-trans-func, $row-trans-delay);
 
   &:hover {
@@ -19,6 +18,7 @@
   a {
     color: black;
   }
+  padding: 5px;
 }
 
 .poll-list {
@@ -30,6 +30,6 @@
 }
 
 .top-row {
-  border-top-left-radius: 5px;
   border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
 }
